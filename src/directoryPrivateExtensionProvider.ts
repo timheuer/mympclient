@@ -42,9 +42,8 @@ export class DirectoryPrivateExtensionProvider implements vscode.TreeDataProvide
 				filteredFiles.forEach(async function (file) {
 					const filePath = path.join(element, file);
 					const zip = new AdmZip(filePath);
-					const manifestXml = zip.readAsText('extension.vsixmanifest');
-
 					const parser = new xml2js.Parser({ explicitArray: false });
+					const manifestXml = zip.readAsText('extension.vsixmanifest');
 					const manifest = await parser.parseStringPromise(manifestXml);
 					const jsonManifest = zip.readAsText('extension/package.json');
 					const pkg = Convert.toPackage(jsonManifest);
@@ -67,10 +66,13 @@ export class DirectoryPrivateExtensionProvider implements vscode.TreeDataProvide
 					}
 
 					pkg.location = filePath;
+					pkg.publisher = manifest.PackageManifest.Metadata.Identity.$.Publisher;
+					pkg.description = manifest.PackageManifest.Metadata.Description._;
+					pkg.displayName = manifest.PackageManifest.Metadata.DisplayName;
 
 					let exts: IExtension[] = [pkg];
 					
-					let newp = new ExtensionPackage(`${pkg.publisher}-${pkg.name}`, pkg.version, exts);
+					let newp = new ExtensionPackage(`${pkg.publisher}.${pkg.name}`, pkg.version, exts);
 					newp.source = element;
 					newp.readmeContent = readme;
 					newp.base64Icon = dataUri;
