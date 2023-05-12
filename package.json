@@ -1,0 +1,192 @@
+{
+  "name": "mympclient",
+  "displayName": "My Marketplace",
+  "description": "Client for My Marketplace private extension",
+  "version": "0.0.1",
+  "icon": "resources/mympicon.png",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/timheuer/mympclient.git"
+  },
+  "license": "MIT",
+  "publisher": "timheuer",
+  "preview": true,
+  "author": {
+    "name": "Tim Heuer"
+  },
+  "contributors": [
+    {
+      "name": "Prashant Cholachagudda"
+    },
+    {
+      "name": "Tim Heuer"
+    }
+  ],
+  "engines": {
+    "vscode": "^1.78.0"
+  },
+  "categories": [
+    "Other"
+  ],
+  "activationEvents": [
+    "onStartupFinished"
+  ],
+  "main": "./out/extension.js",
+  "contributes": {
+    "commands": [
+      {
+        "command": "mympclient.refreshApiSource",
+        "title": "Refresh API Sources",
+        "icon": "$(refresh)"
+      },
+      {
+        "command": "mympclient.refreshDirSource",
+        "title": "Refresh Directory Sources",
+        "icon": "$(refresh)"
+      },
+      {
+        "command": "mympclient.addSource",
+        "title": "Add Private API Source",
+        "icon": "$(server)"
+      },
+      {
+        "command": "mympclient.addDirSource",
+        "title": "Add Private Directory Source",
+        "icon": "$(folder)"
+      },
+      {
+        "command": "mympclient.install",
+        "title": "Install Extension",
+        "icon": "$(cloud-download)"
+      },
+      {
+        "command": "mympclient.prerelease",
+        "title": "Toggle Prerelease Extensions"
+      }
+    ],
+    "viewsContainers": {
+      "activitybar": [
+        {
+          "id": "mympclient-activitybar",
+          "title": "My Marketplace",
+          "icon": "resources/mympsidebar.svg"
+        }
+      ]
+    },
+    "views": {
+      "mympclient-activitybar": [
+        {
+          "id": "mympclient-api-extensions",
+          "name": "API Repository"
+        },
+        {
+          "id": "mympclient-dir-extensions",
+          "name": "Directory Repository"
+        }
+      ]
+    },
+    "viewsWelcome": [
+      {
+        "view": "mympclient-api-extensions",
+        "contents": "Configure API source.  \n[Add API Source](command:mympclient.addSource)"
+      },
+      {
+        "view": "mympclient-dir-extensions",
+        "contents": "Configure directory source.  \n[Add Directory Source](command:mympclient.addDirSource)"
+      }
+    ],
+    "configuration": [
+      {
+        "title": "My Marketplace",
+        "properties": {
+          "myMarketplace.ApiSource": {
+            "type": "array",
+            "order": 0,
+            "description": "This is the list of private API sources."
+          }
+        }
+      },
+      {
+        "title": "My Marketplace",
+        "properties": {
+          "myMarketplace.DirectorySource": {
+            "type": "array",
+            "order": 0,
+            "description": "This is the list of private directory sources."
+          }
+        }
+      },
+      {
+        "title": "My Marketplace",
+        "properties": {
+          "myMarketplace.Prerelease": {
+            "type": "boolean",
+            "order": 1,
+            "description": "Show prerelease versions in the list. Note: this only applies to API sources"
+          }
+        }
+      }
+    ],
+    "menus": {
+      "view/title": [
+        {
+          "command": "mympclient.addSource",
+          "when": "view == mympclient-api-extensions",
+          "group": "navigation"
+        },
+        {
+          "command": "mympclient.addDirSource",
+          "when": "view == mympclient-dir-extensions",
+          "group": "navigation"
+        },
+        {
+          "command": "mympclient.refreshApiSource",
+          "when": "view == mympclient-api-extensions",
+          "group": "navigation"
+        },
+        {
+          "command": "mympclient.refreshDirSource",
+          "when": "view == mympclient-dir-extensions",
+          "group": "navigation"
+        }
+      ],
+      "view/item/context": [
+        {
+          "command": "mympclient.install",
+          "when": "view == mympclient-api-extensions || view == mympclient-dir-extensions",
+          "group": "inline"
+        }
+      ]
+    }
+  },
+  "scripts": {
+    "vscode:prepublish": "npm run compile",
+    "compile": "tsc -p ./",
+    "watch": "tsc -watch -p ./",
+    "pretest": "npm run compile && npm run lint",
+    "lint": "eslint src --ext ts",
+    "test": "node ./out/test/runTest.js"
+  },
+  "devDependencies": {
+    "@types/adm-zip": "^0.5.0",
+    "@types/glob": "^7.2.0",
+    "@types/mocha": "^9.1.1",
+    "@types/node": "16.x",
+    "@types/vscode": "^1.78.0",
+    "@types/vscode-webview": "^1.57.1",
+    "@typescript-eslint/eslint-plugin": "^5.31.0",
+    "@typescript-eslint/parser": "^5.31.0",
+    "@vscode/test-electron": "^2.1.5",
+    "eslint": "^8.20.0",
+    "glob": "^8.0.3",
+    "mocha": "^10.0.0",
+    "typescript": "^4.7.4"
+  },
+  "dependencies": {
+    "@azure/msal-node": "^1.17.2",
+    "adm-zip": "^0.5.10",
+    "axios": "^1.3.2",
+    "fs": "^0.0.1-security",
+    "markdown-it": "^13.0.1"
+  }
+}

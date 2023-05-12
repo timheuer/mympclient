@@ -1,0 +1,50 @@
+name: "Build"
+
+on:
+  push:
+    branches:
+      - main
+    paths-ignore:
+      - '**/*.md'
+      - '**/*.gitignore'
+      - '**/*.gitattributes'
+  pull_request:
+    branches:
+      - main
+    paths-ignore:
+      - '**/*.md'
+      - '**/*.gitignore'
+      - '**/*.gitattributes'
+  workflow_dispatch:
+    branches:
+      - main
+    paths-ignore:
+      - '**/*.md'
+      - '**/*.gitignore'
+      - '**/*.gitattributes'
+      
+jobs:
+  build:
+    name: Build 
+    runs-on: ubuntu-latest
+      
+    steps:
+    - uses: actions/checkout@v3
+
+    - name: Setup Node.js
+      uses: actions/setup-node@v2
+
+    - name: Install dependencies
+      run: npm install
+
+    - name: Install vsce
+      run: npm install -g @vscode/vsce
+
+    - name: Package
+      run: vsce package
+
+    - name: Upload artifact
+      uses: actions/upload-artifact@v3
+      with:
+        name: ${{ github.event.repository.name }}.vsix
+        path: **/*.vsix

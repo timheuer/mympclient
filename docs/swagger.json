@@ -1,0 +1,32 @@
+{
+    "openapi": "3.0.1",
+    "info": {
+      "title": "mymarketplace",
+      "version": "1.0"
+    },
+    "paths": {
+      "/extension": {
+        "get": {
+          "tags": [
+            "Extension"
+          ],
+          "parameters": [
+            {
+              "name": "prerelease",
+              "in": "query",
+              "schema": {
+                "type": "boolean",
+                "default": false
+              }
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "Success"
+            }
+          }
+        }
+      },
+    "components": { }
+  }
+}
