@@ -92,3 +92,12 @@ input::placeholder,
 textarea::placeholder {
 	color: var(--vscode-input-placeholderForeground);
 }
+
+vscode-tag.previewTag {
+	--badge-background: #d63f26;
+	--badge-foreground: white;
+  }
+vscode-tag.versionTag {
+	--badge-foreground: #3b3b3b;
+	--badge-background: #CECECE;
+  }  

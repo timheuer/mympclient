@@ -1,6 +1,8 @@
 import * as vscode from "vscode";
 import { ExtensionPackage } from "./extensionPackage";
 import { AppConstants, flattenUrl, getExtensionSource } from "./utils";
+import { provideVSCodeDesignSystem, vsCodeButton, vsCodeTag } from "@vscode/webview-ui-toolkit";
+provideVSCodeDesignSystem().register(vsCodeButton(), vsCodeTag());
 
 export class ExtensionDetailsPanel {
 	public static currentPanel: ExtensionDetailsPanel | undefined;
@@ -91,6 +93,8 @@ export class ExtensionDetailsPanel {
 		const styleMain = webview.asWebviewUri(vscode.Uri.joinPath(this._extensionUri, "media", "main.css"));
 		const defaultIcon = webview.asWebviewUri(vscode.Uri.joinPath(this._extensionUri, "media", "default_icon_128.png"));
 
+		const codiconsUri = webview.asWebviewUri(vscode.Uri.joinPath(this._extensionUri, 'node_modules', '@vscode/codicons', 'dist', 'codicon.css'));
+
 		// Use a nonce to only allow a specific script to be run.
 		const nonce = getNonce();
 		let imageUri = defaultIcon.toString();;
@@ -113,33 +117,34 @@ export class ExtensionDetailsPanel {
     <link href="${styleVSCodeUri}" rel="stylesheet">
     <link href="${styleGithub}" rel="stylesheet">
 	<link href="${styleMain}" rel="stylesheet">
+	<link href="${codiconsUri}" rel="stylesheet" />
 
     <title>${item.displayName}</title>
   </head>
   <body>
- 	<table border="0">
-			<tr>
-				<td rowspan="4">
-					<img width="64"
-						src="${imageUri}"
-						alt="missing-image"
-						class="extension-icon"
-					/>
-				</td>
-				<td style="height: 0%"><b>${item.displayName} ${(item.mainExtension.extension.target === "neutral" ? "" : `(${item.mainExtension.extension.target})`)}</b></td>
-			</tr>
-			<tr>
-				<td><span class="identifier" id="packageId" data-repo-source="${item.source}">${item.identifier}</span></td>
-			</tr>
-			<tr>
-				<td>${item.description}</td>
-			</tr>
-			<tr>
-				<td><button class="btn-custom" id="installButton" data-package-location="${item.mainExtension.extension.location}" data-extension="${item.identifier}">Install</button></td>
-			</tr>
-		</table>
-<hr />
-    <div id="markdownDiv" data-markdown-path="${item.readmeContent}"></div>
+		<div class="header">
+			<div class="icon-container">
+					<img src="${imageUri}" alt="missing-image" class="extension-icon" />
+			</div>
+			<div class="details">
+				<div class="title">
+					${item.displayName} ${(item.mainExtension.extension.target === "neutral" ? "" : `(${item.mainExtension.extension.target})`)} <vscode-tag class='versionTag'>${item.version}</vscode-tag> ${(item.mainExtension.extension.preview !== undefined ? "<vscode-tag class='previewTag'>Preview</vscode-tag>" : "")}
+				</div>
+				<div class="subtitle" id="packageId" data-repo-source="${item.source}">
+					${item.identifier}
+				</div>
+				<div class="description">
+					${item.description}
+				</div>
+				<div class="actions">
+					<vscode-button appearance="primary" id="installButton" data-package-location="${item.mainExtension.extension.location}" data-extension="${item.identifier}">
+						Install
+						<span slot="start" class="codicon codicon-desktop-download"></span>
+					</vscode-button>
+				</div>
+			</div>
+		</div>
+		<div class="body" id="markdownDiv" data-markdown-path="${item.readmeContent}"></div>
     <script nonce="${nonce}" src="${scriptUri}"></script>
     <script nonce="${nonce}" src="${webviewScript}"></script>
   </body>

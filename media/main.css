@@ -48,7 +48,8 @@ td:first-child {
 }
 .extension-icon {
 	border-radius: 5%;
-	max-width: 64px;
+	height: 128px;
+	width: 128px;
 	margin-top: 4px;
 	margin-right: 10px;
 }

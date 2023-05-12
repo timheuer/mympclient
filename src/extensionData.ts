@@ -18,6 +18,7 @@ export interface IExtension {
 	relativeReadmePath: string;
 	publisher: string;
 	name: string;
+	preview: boolean;
 }
 
 export class Extension {
