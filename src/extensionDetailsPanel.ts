@@ -51,8 +51,7 @@ export class ExtensionDetailsPanel {
 			(message) => {
 				switch (message.command) {
 					case AppConstants.messageInstall:
-						//vscode.commands.executeCommand(AppConstants.commandInstall, message.id);
-						vscode.window.showInformationMessage(message.foo);
+						vscode.commands.executeCommand(AppConstants.commandInstall, message.id, message.location);
 						return;
 				}
 			},
@@ -136,7 +135,7 @@ export class ExtensionDetailsPanel {
 				<td>${item.description}</td>
 			</tr>
 			<tr>
-				<td><button class="btn-custom" id="installButton" data-extension=${item.identifier}>Install</button></td>
+				<td><button class="btn-custom" id="installButton" data-package-location="${item.mainExtension.extension.location}" data-extension="${item.identifier}">Install</button></td>
 			</tr>
 		</table>
 <hr />

@@ -51,11 +51,11 @@ function main() {
  */
 function installButtonClick(event) {
 	const id = event.target.getAttribute("data-extension");
+	const location = event.target.getAttribute("data-package-location");
 	vscode.postMessage({
 		command: 'install',
 		id: id,
-		foo: 'bar',
-		url: 'https://localhost:7004'
+		location: location
 	});
 	
 }

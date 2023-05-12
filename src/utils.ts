@@ -11,41 +11,45 @@ import { ExtensionPackage } from "./extensionPackage";
  * @param ctx The extension context.
  * @returns A promise that resolves to true if the download is successful, or false if there's an error.
  */
-export async function installExtension(item: ExtensionPackage, ctx: vscode.ExtensionContext): Promise<boolean> {
-	console.log(`Installing ${item.displayName}`);
-	let downloadUrl = `${getExtensionSource()}extension/download/${item.identifier}/${item.version}`;
-	downloadUrl = flattenUrl(downloadUrl);
+export async function installExtension(id: string, location: string, ctx: vscode.ExtensionContext): Promise<boolean> {
+	console.log(`Installing ${id}`);
+	
+	//let downloadUrl = `${getExtensionSource()}extension/download/${item.identifier}/${item.version}`;
+	let downloadUrl = flattenUrl(location);
 
 	const downloadDirectory = getDownloadDirectory(ctx).fsPath;
 	if (!fs.existsSync(downloadDirectory)) {
 		fs.mkdirSync(downloadDirectory, { recursive: true });
 	}
 
-	const response = await axios.get(downloadUrl, { responseType: "stream" });
-	const fileName = getDownloadFilename(response.headers["content-disposition"]);
-	if (!fileName) {
-		return false;
-	}
+	// const response = await axios.get(downloadUrl, { responseType: "stream" });
+	// const fileName = getDownloadFilename(response.headers["content-disposition"]);
+	// if (!fileName) {
+	// 	return false;
+	// }
 
-	const extensionPath = path.join(downloadDirectory, fileName);
+	const extensionPath = path.join(downloadDirectory, path.basename(downloadUrl));
+	fs.copyFileSync(downloadUrl, extensionPath);
 
-	const writer = fs.createWriteStream(extensionPath);
-	response.data.pipe(writer);
+	//const writer = fs.createWriteStream(extensionPath);
+	//response.data.pipe(writer);
 
-	await new Promise<void>((resolve, reject) => {
-		writer.on("finish", resolve);
-		writer.on("error", reject);
-	});
+	// await new Promise<void>((resolve, reject) => {
+	// 	writer.on("finish", resolve);
+	// 	writer.on("error", reject);
+	// });
 
 	console.log(`Download complete: ${extensionPath}`);
 
 	try {
 		await vscode.commands.executeCommand(AppConstants.commandWorkbenchInstall, vscode.Uri.file(extensionPath));
-		console.log(`Installed ${item.displayName}`);
+		console.log(`Installed ${id}`);
 		fs.rmSync(extensionPath);
+		await vscode.window.showInformationMessage(`Installed ${id}`);
 		return true;
 	} catch (error) {
 		console.error(error);
+		await vscode.window.showErrorMessage(`Failed to install ${id} with error ${error}`);
 		return false;
 	}
 }

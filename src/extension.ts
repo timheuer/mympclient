@@ -76,8 +76,8 @@ export function activate(context: vscode.ExtensionContext) {
 		ExtensionDetailsPanel.currentPanel?.update(item);
 	});
 
-	vscode.commands.registerCommand(AppConstants.commandInstall, async (item: ExtensionPackage) => {
-		await installExtension(item, context);
+	vscode.commands.registerCommand(AppConstants.commandInstall, async (id: string, location: string, ctx: vscode.ExtensionContext) => {
+		await installExtension(id, location, context);
 	});
 
 	context.subscriptions.push(addApiSource);
