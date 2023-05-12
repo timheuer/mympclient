@@ -4,8 +4,9 @@ export class ExtensionPackage {
     identifier: string;
     version: string;
     extensions: Extension[];
-    source?: string;
+    source: string = "";
     base64Icon?: string;
+    readmeContent: string = "";
 
     constructor(identifier: string, version: string, extensions: IExtension[]) {
         this.identifier = identifier;
@@ -25,7 +26,7 @@ export class ExtensionPackage {
         return this.mainExtension.extension.description;
     }
 
-    public extention(version: string, target: string | undefined = undefined): Extension | undefined {
+    public extension(version: string, target: string | undefined = undefined): Extension | undefined {
         if (target !== undefined) {
             let exts = this.extensions
                 .find(p => p.extension.version === version && p.extension.target === target);

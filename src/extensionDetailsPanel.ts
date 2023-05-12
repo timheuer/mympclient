@@ -2,16 +2,6 @@ import * as vscode from "vscode";
 import { ExtensionPackage } from "./extensionPackage";
 import { AppConstants, flattenUrl, getExtensionSource } from "./utils";
 
-function getWebviewOptions(extensionUri: vscode.Uri): vscode.WebviewOptions {
-	return {
-		// Enable javascript in the webview
-		enableScripts: true,
-
-		// And restrict the webview to only loading content from our extension's `media` directory.
-		localResourceRoots: [vscode.Uri.joinPath(extensionUri, "media")],
-	};
-}
-
 export class ExtensionDetailsPanel {
 	public static currentPanel: ExtensionDetailsPanel | undefined;
 
@@ -34,8 +24,11 @@ export class ExtensionDetailsPanel {
 		const panel = vscode.window.createWebviewPanel(
 			ExtensionDetailsPanel.viewType,
 			item.displayName,
-			column || vscode.ViewColumn.One,
-			getWebviewOptions(extensionUri)
+			vscode.ViewColumn.One,
+			{
+				enableScripts: true,
+				localResourceRoots: [vscode.Uri.joinPath(extensionUri, "media")],				
+			}
 		);
 
 		ExtensionDetailsPanel.currentPanel = new ExtensionDetailsPanel(panel, extensionUri);
@@ -58,7 +51,8 @@ export class ExtensionDetailsPanel {
 			(message) => {
 				switch (message.command) {
 					case AppConstants.messageInstall:
-						vscode.commands.executeCommand(AppConstants.commandInstall, message.id);
+						//vscode.commands.executeCommand(AppConstants.commandInstall, message.id);
+						vscode.window.showInformationMessage(message.foo);
 						return;
 				}
 			},
@@ -127,7 +121,7 @@ export class ExtensionDetailsPanel {
 				<td style="height: 0%"><b>${item.displayName}</b></td>
 			</tr>
 			<tr>
-				<td><span class="identifier">${item.identifier}</span></td>
+				<td><span class="identifier" id="packageId" data-repo-source="${item.source}">${item.identifier}</span></td>
 			</tr>
 			<tr>
 				<td>${item.description}</td>
@@ -137,7 +131,7 @@ export class ExtensionDetailsPanel {
 			</tr>
 		</table>
 <hr />
-    <div id="markdownDiv" data-markdown-path="${baseUrl}${item.mainExtension.readmePath}"></div>
+    <div id="markdownDiv" data-markdown-path="${item.readmeContent}"></div>
     <script nonce="${nonce}" src="${scriptUri}"></script>
     <script nonce="${nonce}" src="${webviewScript}"></script>
   </body>

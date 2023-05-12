@@ -16,6 +16,8 @@ export interface IExtension {
 	location: string;
 	relativeIconPath: string;
 	relativeReadmePath: string;
+	publisher: string;
+	name: string;
 }
 
 export class Extension {

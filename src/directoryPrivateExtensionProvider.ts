@@ -39,13 +39,15 @@ export class DirectoryPrivateExtensionProvider implements vscode.TreeDataProvide
                 const filePath = path.join(element, file);
                 const zip = new AdmZip(filePath);
                 const packageJson = zip.readAsText('extension/package.json');
-    
+
 				const pkg = Convert.toPackage(packageJson);
+				const readme = zip.readAsText('extension/README.md');
 
 				let exts: IExtension[] = [pkg];
 				
-				let newp = new ExtensionPackage(pkg.identifier, pkg.version, exts);
+				let newp = new ExtensionPackage(`${pkg.publisher}-${pkg.name}`, pkg.version, exts);
 				newp.source = element;
+				newp.readmeContent = readme;
 				extensionInfos.push(newp);
             }); 
         };
