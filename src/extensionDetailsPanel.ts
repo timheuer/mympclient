@@ -101,6 +101,10 @@ export class ExtensionDetailsPanel {
 			imageUri = `${baseUrl}/${item.mainExtension.iconPath}`;
 		}
 
+		if (item.base64Icon && item.base64Icon.length > 0){
+			imageUri = item.base64Icon;
+		}
+
 		return /*html*/ `
     <!DOCTYPE html>
 <html>
@@ -123,7 +127,7 @@ export class ExtensionDetailsPanel {
 						class="extension-icon"
 					/>
 				</td>
-				<td style="height: 0%"><b>${item.displayName}</b></td>
+				<td style="height: 0%"><b>${item.displayName} ${(item.mainExtension.extension.target === "neutral" ? "" : `(${item.mainExtension.extension.target})`)}</b></td>
 			</tr>
 			<tr>
 				<td><span class="identifier" id="packageId" data-repo-source="${item.source}">${item.identifier}</span></td>

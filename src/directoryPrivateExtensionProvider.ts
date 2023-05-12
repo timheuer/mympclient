@@ -5,6 +5,7 @@ import { AppConstants, getDirectoryExtensionSource } from "./utils";
 import * as fs from 'fs';
 import path = require('path');
 import AdmZip = require('adm-zip');
+import xml2js = require('xml2js');
 
 export class DirectoryPrivateExtensionProvider implements vscode.TreeDataProvider<ExtensionPackage> {
 	
@@ -35,20 +36,41 @@ export class DirectoryPrivateExtensionProvider implements vscode.TreeDataProvide
                 return ext === extensionFilter;
             });
     
-            filteredFiles.forEach(function (file) {
+            filteredFiles.forEach(async function (file) {
                 const filePath = path.join(element, file);
                 const zip = new AdmZip(filePath);
-                const packageJson = zip.readAsText('extension/package.json');
+                const manifestXml = zip.readAsText('extension.vsixmanifest');
 
-				const pkg = Convert.toPackage(packageJson);
-				const readme = zip.readAsText('extension/README.md');
+                const parser = new xml2js.Parser({ explicitArray: false });
+                const manifest = await parser.parseStringPromise(manifestXml);
+				const jsonManifest = zip.readAsText('extension/package.json');
+				const pkg = Convert.toPackage(jsonManifest);
 
-				let exts: IExtension[] = [pkg];
+				pkg.target = "neutral";
+				const detailsAsset = manifest.PackageManifest.Assets.Asset.find((asset: any) => asset.$.Type === "Microsoft.VisualStudio.Services.Content.Details");
+				if (detailsAsset !== undefined) {
+					pkg.relativeReadmePath = detailsAsset.$.Path;
+				}
+				const metadataIcon = manifest.PackageManifest.Metadata.Icon;
+				let dataUri = '';
+				if (metadataIcon !== undefined) {
+					const iconData = zip.readFile(metadataIcon) as Buffer;					
+					const base64Icon = Buffer.from(iconData).toString('base64');
+					dataUri = `data:image/png;base64,${base64Icon}`;
+				}
+				const readme = zip.readAsText(pkg.relativeReadmePath);
+				if (manifest.PackageManifest.Metadata.Identity.$.TargetPlatform !== undefined) {
+					pkg.target = manifest.PackageManifest.Metadata.Identity.$.TargetPlatform;
+				}
+
+                let exts: IExtension[] = [pkg];
+                
+                let newp = new ExtensionPackage(`${pkg.publisher}-${pkg.name}`, pkg.version, exts);
+                newp.source = element;
+                newp.readmeContent = readme;
+				newp.base64Icon = dataUri;
 				
-				let newp = new ExtensionPackage(`${pkg.publisher}-${pkg.name}`, pkg.version, exts);
-				newp.source = element;
-				newp.readmeContent = readme;
-				extensionInfos.push(newp);
+                extensionInfos.push(newp);
             }); 
         };
 
@@ -67,9 +89,10 @@ export class DirectoryPrivateExtensionProvider implements vscode.TreeDataProvide
 
 class ExtensionView extends vscode.TreeItem {
 	constructor(public readonly extension: ExtensionPackage) {
+
 		super(extension.displayName, vscode.TreeItemCollapsibleState.None);
-		this.id = extension.identifier;
-		this.description = `v${extension.version} - ${extension.source}`;
+		this.id = `${extension.identifier}=${extension.mainExtension.extension.target}`;
+		this.description = `v${extension.version} ${(extension.mainExtension.extension.target === "neutral" ? "" : `(${extension.mainExtension.extension.target}) `)}- ${extension.source}`;
 		this.tooltip = extension.description;
 		this.iconPath = new vscode.ThemeIcon("extensions");
 		this.command = {
