@@ -90,11 +90,16 @@ export class ExtensionDetailsPanel {
 		const styleVSCodeUri = webview.asWebviewUri(vscode.Uri.joinPath(this._extensionUri, "media", "vscode.css"));
 		const styleGithub = webview.asWebviewUri(vscode.Uri.joinPath(this._extensionUri, "media", "gh.css"));
 		const styleMain = webview.asWebviewUri(vscode.Uri.joinPath(this._extensionUri, "media", "main.css"));
+		const defaultIcon = webview.asWebviewUri(vscode.Uri.joinPath(this._extensionUri, "media", "default_icon_128.png"));
 
 		// Use a nonce to only allow a specific script to be run.
 		const nonce = getNonce();
-		const baseUrl = flattenUrl(getExtensionSource());
-		let imageUri = `${baseUrl}/${item.mainExtension.iconPath}`;
+		let imageUri = defaultIcon.toString();;
+
+		if (item.source.length < 1) {
+			const baseUrl = flattenUrl(getExtensionSource());
+			imageUri = `${baseUrl}/${item.mainExtension.iconPath}`;
+		}
 
 		return /*html*/ `
     <!DOCTYPE html>

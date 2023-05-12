@@ -24,24 +24,33 @@ export class ApiPrivateExtensionProvider implements vscode.TreeDataProvider<Exte
 		const prerelease = getPrerelease();
 		url = flattenUrl(`${url}extension?prerelease=${prerelease}`);
 		//const res = await axios.get<Ext[]>(url, options);
-		const res = await axios.get<Ext[]>(url);
-		if (res.status !== axios.HttpStatusCode.Ok) {
+		
+		try
+		{
+			const res = await axios.get<Ext[]>(url);
+
+			if (res.status !== axios.HttpStatusCode.Ok) {
+				return [];
+			}
+
+			let responseData = res.data;
+			let uniqueExtensions = responseData.reduce((acc: Ext[], curr: Ext) => {
+				if (acc.find((p) => p.identifier === curr.identifier)) {
+					return acc;
+				}
+				return [...acc, curr];
+			}, []);
+
+			const localExtensions = uniqueExtensions.map(
+				(p) => new ExtensionPackage(p.identifier, p.version, p.extensions)
+			);
+
+			return localExtensions;
+		} catch (error) {
+			// problem with the API source
+			vscode.window.showErrorMessage(`There was a problem connecting to ${url}, please re-validate the source or remove from settings`);
 			return [];
 		}
-
-		let responseData = res.data;
-		let uniqueExtensions = responseData.reduce((acc: Ext[], curr: Ext) => {
-			if (acc.find((p) => p.identifier === curr.identifier)) {
-				return acc;
-			}
-			return [...acc, curr];
-		}, []);
-
-		const localExtensions = uniqueExtensions.map(
-			(p) => new ExtensionPackage(p.identifier, p.version, p.extensions)
-		);
-
-		return localExtensions;
 	}
 
 	refresh(): void {
