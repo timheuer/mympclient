@@ -9,10 +9,8 @@ vsc-extension-quickstart.md
 **/*.map
 **/*.ts
 **/*.vsix
-docs/swagger.json
 out/test
 node_modules
-docs
 .github
 azure-pipelines.yml
 esbuild.js

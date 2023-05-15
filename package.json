@@ -101,6 +101,10 @@
         "properties": {
           "myMarketplace.ApiSource": {
             "type": "array",
+            "default": [],
+            "items": {
+              "type": "string"
+            },
             "order": 0,
             "description": "This is the list of private API sources."
           }
@@ -111,6 +115,10 @@
         "properties": {
           "myMarketplace.DirectorySource": {
             "type": "array",
+            "default": [],
+            "items": {
+              "type": "string"
+            },
             "order": 0,
             "description": "This is the list of private directory sources."
           }
