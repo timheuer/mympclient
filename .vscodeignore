@@ -10,3 +10,10 @@ vsc-extension-quickstart.md
 **/*.ts
 **/*.vsix
 docs/swagger.json
+out/test
+node_modules
+docs
+.github
+azure-pipelines.yml
+esbuild.js
+media/webview.js

@@ -1,6 +1,9 @@
 "use strict";
 const vscode = acquireVsCodeApi();
 
+import { provideVSCodeDesignSystem, vsCodeButton, vsCodeTag } from "@vscode/webview-ui-toolkit";
+provideVSCodeDesignSystem().register(vsCodeButton(), vsCodeTag());
+
 window.addEventListener("load", main);
 function main() {
 	const installButton = document.getElementById("installButton");
@@ -11,17 +14,17 @@ function main() {
 
 	const nameElement = document.getElementById("packageId");
 	const repoSource = nameElement.getAttribute("data-repo-source");
-
-	const markdown = document.getElementById("markdownDiv");
+	console.log(nameElement);
+	console.log(repoSource);
 
 	// if directory path, extract it from the attribute
-	if (repoSource != null && repoSource.length > 0) {
+	if (repoSource !== null && repoSource.length > 0) {
 		var md = window.markdownit();
 		var result = md.render(markdownPath);
-		markdown.innerHTML = result;
+		markdownDiv.innerHTML = result;
 	}
 	else {
-		markdown.innerHTML = "# TODO: Add API source README";	
+		markdownDiv.innerHTML = "# TODO: Add API source README";	
 	}
 
 	// if API repository get the URI and read it

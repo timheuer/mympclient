@@ -1,8 +1,6 @@
 import * as vscode from "vscode";
 import { ExtensionPackage } from "./extensionPackage";
 import { AppConstants, flattenUrl, getExtensionSource } from "./utils";
-import { provideVSCodeDesignSystem, vsCodeButton, vsCodeTag } from "@vscode/webview-ui-toolkit";
-provideVSCodeDesignSystem().register(vsCodeButton(), vsCodeTag());
 
 export class ExtensionDetailsPanel {
 	public static currentPanel: ExtensionDetailsPanel | undefined;
@@ -29,7 +27,7 @@ export class ExtensionDetailsPanel {
 			vscode.ViewColumn.One,
 			{
 				enableScripts: true,
-				localResourceRoots: [vscode.Uri.joinPath(extensionUri, "media")],				
+				localResourceRoots: [vscode.Uri.joinPath(extensionUri, "media"), vscode.Uri.joinPath(extensionUri, "out")]
 			}
 		);
 
@@ -85,7 +83,7 @@ export class ExtensionDetailsPanel {
 	private _getHtmlForWebview(webview: vscode.Webview, item: ExtensionPackage) {
 		// Get the local path to main script run in the webview, then convert it to a uri we can use in the webview.
 		const scriptUri = webview.asWebviewUri(vscode.Uri.joinPath(this._extensionUri, "media", "markdown-it.min.js"));
-		const webviewScript = webview.asWebviewUri(vscode.Uri.joinPath(this._extensionUri, "media", "webview.js"));
+		const webviewScript = webview.asWebviewUri(vscode.Uri.joinPath(this._extensionUri, "out", "webview.js"));
 
 		// Do the same for the stylesheet
 		const styleVSCodeUri = webview.asWebviewUri(vscode.Uri.joinPath(this._extensionUri, "media", "vscode.css"));
@@ -93,7 +91,7 @@ export class ExtensionDetailsPanel {
 		const styleMain = webview.asWebviewUri(vscode.Uri.joinPath(this._extensionUri, "media", "main.css"));
 		const defaultIcon = webview.asWebviewUri(vscode.Uri.joinPath(this._extensionUri, "media", "default_icon_128.png"));
 
-		const codiconsUri = webview.asWebviewUri(vscode.Uri.joinPath(this._extensionUri, 'node_modules', '@vscode/codicons', 'dist', 'codicon.css'));
+		const codiconsUri = webview.asWebviewUri(vscode.Uri.joinPath(this._extensionUri, "media", "codicon.css"));
 
 		// Use a nonce to only allow a specific script to be run.
 		const nonce = getNonce();
@@ -124,11 +122,19 @@ export class ExtensionDetailsPanel {
   <body>
 		<div class="header">
 			<div class="icon-container">
-					<img src="${imageUri}" alt="missing-image" class="extension-icon" />
+					<img class="icon" src="${imageUri}" alt="missing-image" />
 			</div>
 			<div class="details">
 				<div class="title">
-					${item.displayName} ${(item.mainExtension.extension.target === "neutral" ? "" : `(${item.mainExtension.extension.target})`)} <vscode-tag class='versionTag'>${item.version}</vscode-tag> ${(item.mainExtension.extension.preview !== undefined ? "<vscode-tag class='previewTag'>Preview</vscode-tag>" : "")}
+					<span class="name" title="Extension name" role="heading" tabindex="0">
+						${item.displayName} ${(item.mainExtension.extension.target === "any" ? "" : `(${item.mainExtension.extension.target})`)}
+					</span>
+					<vscode-tag class='versionTag'>${item.version}</vscode-tag>
+					<span class="pre-release" style="display: none;">
+						<span class="codicon codicon-extensions-pre-release"></span>
+						<span class="pre-release-text">Pre-Release</span>
+					</span>
+					${(item.mainExtension.extension.preview !== undefined ? "<vscode-tag class='previewTag'>Preview</vscode-tag>" : "")}
 				</div>
 				<div class="subtitle" id="packageId" data-repo-source="${item.source}">
 					${item.identifier}
@@ -146,7 +152,7 @@ export class ExtensionDetailsPanel {
 		</div>
 		<div class="body" id="markdownDiv" data-markdown-path="${item.readmeContent}"></div>
     <script nonce="${nonce}" src="${scriptUri}"></script>
-    <script nonce="${nonce}" src="${webviewScript}"></script>
+    <script nonce="${nonce}" src="${webviewScript}" type="module"></script>
   </body>
 </html>
 `;

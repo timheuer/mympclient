@@ -48,7 +48,7 @@ export class DirectoryPrivateExtensionProvider implements vscode.TreeDataProvide
 					const jsonManifest = zip.readAsText('extension/package.json');
 					const pkg = Convert.toPackage(jsonManifest);
 
-					pkg.target = "neutral";
+					pkg.target = "any";
 					const detailsAsset = manifest.PackageManifest.Assets.Asset.find((asset: any) => asset.$.Type === "Microsoft.VisualStudio.Services.Content.Details");
 					if (detailsAsset !== undefined) {
 						pkg.relativeReadmePath = detailsAsset.$.Path;

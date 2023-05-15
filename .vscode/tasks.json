@@ -13,6 +13,19 @@
 			},
 			"group": {
 				"kind": "build",
+				"isDefault": false
+			}
+		},
+		{
+			"type": "npm",
+			"script": "watch",
+			"isBackground": true,
+			"problemMatcher": "$esbuild-watch",
+			"presentation": {
+				"reveal": "never"
+			},
+			"group": {
+				"kind": "build",
 				"isDefault": true
 			}
 		}

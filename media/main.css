@@ -2,57 +2,49 @@ body {
 	background-color: transparent;
 }
 
-.color-list {
-	list-style: none;
-	padding: 0;
+.icon-container {
+	position: relative
 }
 
-.color-entry {
-	width: 100%;
-	display: flex;
-	margin-bottom: 0.4em;
-	border: 1px solid var(--vscode-input-border);
-}
-
-.color-preview {
-	width: 2em;
-	height: 2em;
-}
-
-.color-preview:hover {
-	outline: inset white;
-}
-
-.color-input {
-	display: block;
-	flex: 1;
-	width: 100%;
-	color: var(--vscode-input-foreground);
-	background-color: var(--vscode-input-background);
-	border: none;
-	padding: 0 0.6em;
-}
-
-.add-color-button {
-	display: block;
-	border: none;
-	margin: 0 auto;
-}
-
-table {
-	border: 1;
-	padding: 2;
-}
-td:first-child {
-	vertical-align: top;
-}
-.extension-icon {
-	border-radius: 5%;
+.icon-container>.extension-icon,
+.icon {
 	height: 128px;
 	width: 128px;
-	margin-top: 4px;
-	margin-right: 10px;
+	object-fit: contain;
 }
 .identifier {
 	font-size: x-small;
+}
+.header {
+	display: flex;
+    padding: 20px 20px 14px;
+    overflow: hidden;
+    font-size: 14px;
+}
+.details {
+	padding-left: 20px;
+    overflow: hidden;
+    user-select: text;
+    -webkit-user-select: text;
+}
+
+.title,
+.header>.details>.title>.name {
+    flex: 0;
+    font-size: 26px;
+    line-height: 30px;
+    font-weight: 600;
+    white-space: nowrap;
+}
+.header>.details>.subtitle {
+    padding-top: 6px;
+    white-space: nowrap;
+    height: 20px;
+    line-height: 20px;
+}
+.header>.details>.description {
+    margin-top: 10px;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
 }
