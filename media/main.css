@@ -28,6 +28,10 @@ body {
     -webkit-user-select: text;
 }
 
+.actions {
+    padding-top: 20px;
+}
+
 .title,
 .header>.details>.title>.name {
     flex: 0;
