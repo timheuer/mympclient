@@ -2,7 +2,7 @@
   "name": "mympclient",
   "displayName": "My Marketplace",
   "description": "Client for My Marketplace private extension",
-  "version": "0.0.4",
+  "version": "0.0.5",
   "icon": "resources/mympicon.png",
   "repository": {
     "type": "git",
@@ -58,6 +58,16 @@
         "command": "mympclient.install",
         "title": "Install Extension",
         "icon": "$(cloud-download)"
+      },
+      {
+        "command": "mympclient.goToSettingsDir",
+        "title": "Directory Settings",
+        "icon": "$(gear)"
+      },
+      {
+        "command": "mympclient.goToSettingsApi",
+        "title": "API Settings",
+        "icon": "$(gear)"
       },
       {
         "command": "mympclient.prerelease",
@@ -159,6 +169,16 @@
         {
           "command": "mympclient.refreshDirSource",
           "when": "view == mympclient-dir-extensions",
+          "group": "navigation"
+        },
+        {
+          "command": "mympclient.goToSettingsDir",
+          "when": "view == mympclient-dir-extensions",
+          "group": "navigation"
+        },
+        {
+          "command": "mympclient.goToSettingsApi",
+          "when": "view == mympclient-api-extensions",
           "group": "navigation"
         }
       ],

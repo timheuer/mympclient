@@ -68,6 +68,14 @@ export function activate(context: vscode.ExtensionContext) {
 		apiExtensionDataProvider.refresh();
 	});
 
+	vscode.commands.registerCommand(AppConstants.commandGoToSettingsDir, async ()=> {
+		vscode.commands.executeCommand('workbench.action.openSettings', '@ext:timheuer.mympclient directory');
+	});
+
+	vscode.commands.registerCommand(AppConstants.commandGoToSettingsApi, async ()=> {
+		vscode.commands.executeCommand('workbench.action.openSettings', '@ext:timheuer.mympclient api');
+	});
+
 	vscode.commands.registerCommand(AppConstants.commandRefresh, () => apiExtensionDataProvider.refresh());
 	vscode.commands.registerCommand(AppConstants.commandRefreshDir, () => directoryDataProvider.refresh());
 	vscode.commands.registerCommand(AppConstants.commandRevealInOs, revealInOS);
