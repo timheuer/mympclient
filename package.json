@@ -62,6 +62,10 @@
       {
         "command": "mympclient.prerelease",
         "title": "Toggle Prerelease Extensions"
+      },
+      {
+        "command": "mympclient.revealInOS",
+        "title": "Reveal in file system"
       }
     ],
     "viewsContainers": {
@@ -163,7 +167,19 @@
           "command": "mympclient.install",
           "when": "view == mympclient-api-extensions || view == mympclient-dir-extensions",
           "group": "inline"
-        }
+        },
+        {
+					"command": "mympclient.revealInOS",
+					"when": "isWindows && view == mympclient-dir-extensions && viewItem == File"
+				},
+				{
+					"command": "mympclient.revealInOS",
+					"when": "isMac && view == mympclient-dir-extensions && viewItem == File"
+				},
+				{
+					"command": "mympclient.revealInOS",
+					"when": "isLinux && view == mympclient-dir-extensions && viewItem == File"
+				}
       ]
     }
   },

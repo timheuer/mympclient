@@ -5,6 +5,7 @@ import { ExtensionDetailsPanel } from "./extensionDetailsPanel";
 import { ExtensionPackage } from "./extensionPackage";
 import { AppConstants, installExtension } from "./utils";
 import { DirectoryPrivateExtensionProvider } from "./directoryPrivateExtensionProvider";
+import revealInOS from "./revealInOS";
 
 export function activate(context: vscode.ExtensionContext) {
 	const apiExtensionDataProvider = new ApiPrivateExtensionProvider();
@@ -69,6 +70,7 @@ export function activate(context: vscode.ExtensionContext) {
 
 	vscode.commands.registerCommand(AppConstants.commandRefresh, () => apiExtensionDataProvider.refresh());
 	vscode.commands.registerCommand(AppConstants.commandRefreshDir, () => directoryDataProvider.refresh());
+	vscode.commands.registerCommand(AppConstants.commandRevealInOs, revealInOS);
 
 	vscode.commands.registerCommand(AppConstants.commandSelect, (item: ExtensionPackage) => {
 		log(`Selected ${item.identifier} - v${item.version}...`);

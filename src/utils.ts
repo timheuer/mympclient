@@ -120,7 +120,8 @@ export class AppConstants {
 	static commandWorkbenchInstall: string = "workbench.extensions.installExtension";
 	static commandAuth: string = "mympclient.getAuth";
 	static extensionDetails: string = "mympclient-extension-details";
-	
+	static commandRevealInOs: string = "mympclient.revealInOS";
+
 	static configSource: string = "myMarketplace.ApiSource";
 	static directoryConfigSource: string = "myMarketplace.DirectorySource";
 	static configPrerelease: string = "myMarketplace.Prerelease";

@@ -76,8 +76,9 @@ export class DirectoryPrivateExtensionProvider implements vscode.TreeDataProvide
 					newp.source = element;
 					newp.readmeContent = readme;
 					newp.base64Icon = dataUri;
+					newp.filePath = filePath;
 
-					let found = extensionInfos.filter((a) => a.identifier == newp.identifier && a.version == newp.version && a.mainExtension.extension.target == newp.mainExtension.extension.target);
+					let found = extensionInfos.filter((a) => a.identifier === newp.identifier && a.version === newp.version && a.mainExtension.extension.target === newp.mainExtension.extension.target);
 
 					if (found.length < 1) {
 						extensionInfos.push(newp);
@@ -105,13 +106,14 @@ export class DirectoryPrivateExtensionProvider implements vscode.TreeDataProvide
 		this._onDidChangeTreeData.event;
 }
 
-class ExtensionView extends vscode.TreeItem {
+export class ExtensionView extends vscode.TreeItem {
 	constructor(public readonly extension: ExtensionPackage) {
 		super(extension.displayName, vscode.TreeItemCollapsibleState.None);
 		this.id = `${extension.identifier}-${extension.mainExtension.extension.target}-${extension.version}`;
 		this.description = `v${extension.version} ${(extension.mainExtension.extension.target === "neutral" ? "" : `(${extension.mainExtension.extension.target}) `)}- ${extension.source}`;
 		this.tooltip = extension.description;
 		this.iconPath = new vscode.ThemeIcon("extensions");
+		this.contextValue = "File";
 		this.command = {
 			command: AppConstants.commandSelect,
 			title: "",

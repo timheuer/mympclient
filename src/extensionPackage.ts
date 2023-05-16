@@ -7,6 +7,7 @@ export class ExtensionPackage {
     source: string = "";
     base64Icon?: string;
     readmeContent: string = "";
+    filePath?: string = "";
 
     constructor(identifier: string, version: string, extensions: IExtension[]) {
         this.identifier = identifier;
