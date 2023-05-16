@@ -212,7 +212,7 @@
     "version": "tsc -v",
     "vscode:prepublish": "npm run package-prod",
     "package-win": "SET NODE_ENV=production node ./esbuild.js",
-    "package-prod": "SET NODE_ENV=production node ./esbuild.js"
+    "package-prod": "NODE_ENV=production node ./esbuild.js"
   },
   "devDependencies": {
     "@types/adm-zip": "^0.5.0",
