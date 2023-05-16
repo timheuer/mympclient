@@ -3,7 +3,7 @@ This is a VS Code extension to enable a view of private extensions and a means t
 
 This enables a directory-based or an API based sources to browse.
 
-!["Screenshot of My Marketplace and sources"](docs/screenshot.png)
+![Screenshot of My Marketplace and sources](docs/screenshot.png)
 
 ## Sources
 There are two types of sources that this can read:
