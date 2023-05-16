@@ -146,7 +146,12 @@ export class ExtensionDetailsPanel {
 				</div>
 			</div>
 		</div>
-		<div class="body" id="markdownDiv" data-markdown-path="${item.readmeContent}"></div>
+		<vscode-panels>
+			<vscode-panel-tab id="tab-1">DETAILS</vscode-panel-tab>
+			<vscode-panel-view id="view-1">
+				<div class="body" id="markdownDiv" data-markdown-path="${item.readmeContent}"></div>
+			</vscode-panel-view>
+		</vscode-panels>
     <script nonce="${nonce}" src="${scriptUri}"></script>
     <script nonce="${nonce}" src="${webviewScript}" type="module"></script>
   </body>

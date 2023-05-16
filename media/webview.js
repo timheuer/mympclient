@@ -1,8 +1,8 @@
 "use strict";
 const vscode = acquireVsCodeApi();
 
-import { provideVSCodeDesignSystem, vsCodeButton, vsCodeTag } from "@vscode/webview-ui-toolkit";
-provideVSCodeDesignSystem().register(vsCodeButton(), vsCodeTag());
+import { provideVSCodeDesignSystem, vsCodeButton, vsCodeTag, vsCodePanelTab, vsCodePanelView, vsCodePanels } from "@vscode/webview-ui-toolkit";
+provideVSCodeDesignSystem().register(vsCodeButton(), vsCodeTag(), vsCodePanelTab(), vsCodePanelView(), vsCodePanels());
 
 window.addEventListener("load", main);
 function main() {
