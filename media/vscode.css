@@ -23,8 +23,14 @@ code {
 vscode-tag.previewTag {
 	--badge-background: #d63f26;
 	--badge-foreground: white;
-  }
+}
+
+vscode-tag.preReleaseTag {
+	--badge-background: #1d9271;
+	--badge-foreground: white;
+}
+
 vscode-tag.versionTag {
 	--badge-foreground: #3b3b3b;
-	--badge-background: #CECECE;
-  }  
+	--badge-background: rgb(217,217,217);
+}  

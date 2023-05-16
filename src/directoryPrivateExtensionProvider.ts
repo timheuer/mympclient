@@ -69,6 +69,16 @@ export class DirectoryPrivateExtensionProvider implements vscode.TreeDataProvide
 					pkg.publisher = manifest.PackageManifest.Metadata.Identity.$.Publisher;
 					pkg.description = manifest.PackageManifest.Metadata.Description._;
 					pkg.displayName = manifest.PackageManifest.Metadata.DisplayName;
+					
+					// find pre-release
+					const preRelease = manifest.PackageManifest.Metadata.Properties.Property.find((prop: any) =>
+					{
+						return prop.$.Id === "Microsoft.VisualStudio.Code.PreRelease";
+					});
+
+					if (preRelease) {
+						pkg.isPreRelease = Boolean(preRelease.$.Value);
+					}
 
 					let exts: IExtension[] = [pkg];
 					

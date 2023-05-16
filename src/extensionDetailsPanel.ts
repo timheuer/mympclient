@@ -130,6 +130,7 @@ export class ExtensionDetailsPanel {
 						${item.displayName} ${(item.mainExtension.extension.target === "any" ? "" : `(${item.mainExtension.extension.target})`)}
 					</span>
 					<vscode-tag class='versionTag'>${item.version}</vscode-tag>
+					${((item.mainExtension.extension.isPreRelease !== undefined && item.mainExtension.extension.isPreRelease === true) ? "<vscode-tag class='preReleaseTag'>Pre-release</vscode-tag>" : "")}
 					${(item.mainExtension.extension.preview !== undefined ? "<vscode-tag class='previewTag'>Preview</vscode-tag>" : "")}
 				</div>
 				<div class="subtitle" id="packageId" data-repo-source="${item.source}">
