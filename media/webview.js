@@ -11,42 +11,30 @@ function main() {
 
 	const markdownDiv = document.getElementById("markdownDiv");
 	const markdownPath = markdownDiv.getAttribute("data-markdown-path");
+	const markdownPathUri = markdownDiv.getAttribute("data-markdown-relativepath");
 
 	const nameElement = document.getElementById("packageId");
+	const repoSourceType = installButton.getAttribute("data-extension-sourcetype");
 	const repoSource = nameElement.getAttribute("data-repo-source");
 	console.log(nameElement);
+	console.log(repoSourceType);
 	console.log(repoSource);
 
 	// if directory path, extract it from the attribute
-	if (repoSource !== null && repoSource.length > 0) {
+	if (repoSourceType !== null && repoSourceType === "Directory") {
 		var md = window.markdownit();
 		var result = md.render(markdownPath);
 		markdownDiv.innerHTML = result;
 	}
-	else {
-		markdownDiv.innerHTML = "# TODO: Add API source README";	
+	else { // API Resource
+		fetch(markdownPathUri)
+			.then(response => response.text())
+			.then(data => {
+				var md = window.markdownit();
+				var result = md.render(data.toString());
+				markdownDiv.innerHTML = result; 
+			});
 	}
-
-	// if API repository get the URI and read it
-
-	// fetch(markdownPath)
-	// 	.then((response) => 
-	// 	{
-	// 		const body = response.text();
-	// 		console.log(body);
-	// 	})
-	// 	.then((data) => {
-	// 		const md = window.markdownit({
-	// 			html: true,
-	// 			linkify: true,
-	// 			typographer: true,
-	// 		});
-	// 		console.log(data);
-	// 		const html = md.render(data);
-	// 		const markdown = document.getElementById("markdownDiv");
-	// 		console.log(html);
-	// 		markdown.innerHTML = html;
-	// 	});
 }
 
 /**

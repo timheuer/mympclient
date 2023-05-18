@@ -23,7 +23,6 @@ export class ApiPrivateExtensionProvider implements vscode.TreeDataProvider<Exte
 
 		const prerelease = getPrerelease();
 		url = flattenUrl(`${url}extension?prerelease=${prerelease}`);
-		//const res = await axios.get<Ext[]>(url, options);
 		
 		try
 		{

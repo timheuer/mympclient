@@ -97,8 +97,9 @@ export class ExtensionDetailsPanel {
 		const nonce = getNonce();
 		let imageUri = defaultIcon.toString();;
 
-		if (item.source.length < 1) {
-			const baseUrl = flattenUrl(getExtensionSource());
+		const baseUrl = flattenUrl(getExtensionSource());
+
+		if (item.source.length < 1) {	
 			imageUri = `${baseUrl}/${item.mainExtension.iconPath}`;
 		}
 
@@ -150,7 +151,7 @@ export class ExtensionDetailsPanel {
 		<vscode-panels>
 			<vscode-panel-tab id="tab-1">DETAILS</vscode-panel-tab>
 			<vscode-panel-view id="view-1">
-				<div class="body" id="markdownDiv" data-markdown-path="${item.readmeContent}"></div>
+				<div class="body" id="markdownDiv" data-markdown-relativepath="${baseUrl}${item.mainExtension.readmePath}" data-markdown-path="${item.readmeContent}"></div>
 			</vscode-panel-view>
 		</vscode-panels>
     <script nonce="${nonce}" src="${scriptUri}"></script>
