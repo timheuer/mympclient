@@ -55,10 +55,16 @@ function main() {
 function installButtonClick(event) {
 	const id = event.target.getAttribute("data-extension");
 	const location = event.target.getAttribute("data-package-location");
+	const sourceType = event.target.getAttribute("data-extension-sourcetype");
+	const version = event.target.getAttribute("data-extension-version");
+	const target = event.target.getAttribute("data-extension-target");
 	vscode.postMessage({
 		command: 'install',
 		id: id,
-		location: location
+		location: location,
+		sourceType: sourceType,
+		version: version,
+		target: target
 	});
 	
 }

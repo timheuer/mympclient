@@ -87,7 +87,8 @@ export class DirectoryPrivateExtensionProvider implements vscode.TreeDataProvide
 					newp.readmeContent = readme;
 					newp.base64Icon = dataUri;
 					newp.filePath = filePath;
-
+					newp.sourceType = "Directory";
+					
 					let found = extensionInfos.filter((a) => a.identifier === newp.identifier && a.version === newp.version && a.mainExtension.extension.target === newp.mainExtension.extension.target);
 
 					if (found.length < 1) {

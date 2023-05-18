@@ -51,7 +51,7 @@ export class ExtensionDetailsPanel {
 			(message) => {
 				switch (message.command) {
 					case AppConstants.messageInstall:
-						vscode.commands.executeCommand(AppConstants.commandInstall, message.id, message.location);
+						vscode.commands.executeCommand(AppConstants.commandInstall, message.id, message.location, message.sourceType, message.version, message.target);
 						return;
 				}
 			},
@@ -140,7 +140,7 @@ export class ExtensionDetailsPanel {
 					${item.description}
 				</div>
 				<div class="actions">
-					<vscode-button appearance="primary" id="installButton" data-package-location="${item.mainExtension.extension.location}" data-extension="${item.identifier}">
+					<vscode-button appearance="primary" id="installButton" data-extension-target="${(item.mainExtension.extension.target === undefined) ? "any":item.mainExtension.extension.target}" data-extension-version="${item.version}" data-extension-sourcetype="${item.sourceType}" data-package-location="${item.mainExtension.extension.location}" data-extension="${item.identifier}">
 						Install
 						<span slot="start" class="codicon codicon-desktop-download"></span>
 					</vscode-button>

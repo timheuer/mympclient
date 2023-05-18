@@ -5,6 +5,7 @@ export class ExtensionPackage {
     version: string;
     extensions: Extension[];
     source: string = "";
+    sourceType: string = "API";
     base64Icon?: string;
     readmeContent: string = "";
     filePath?: string = "";
@@ -25,6 +26,10 @@ export class ExtensionPackage {
 
     public get description(): string {
         return this.mainExtension.extension.description;
+    }
+
+    public get identifierOnly(): string {
+        return this.identifier.substring(this.identifier.indexOf('.') + 1);
     }
 
     public extension(version: string, target: string | undefined = undefined): Extension | undefined {

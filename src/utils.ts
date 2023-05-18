@@ -11,33 +11,48 @@ import { ExtensionPackage } from "./extensionPackage";
  * @param ctx The extension context.
  * @returns A promise that resolves to true if the download is successful, or false if there's an error.
  */
-export async function installExtension(id: string, location: string, ctx: vscode.ExtensionContext): Promise<boolean> {
+export async function installExtension(id: string, location: string, sourceType: string, version:string, target: string, ctx: vscode.ExtensionContext): Promise<boolean> {
 	console.log(`Installing ${id}`);
 	
-	//let downloadUrl = `${getExtensionSource()}extension/download/${item.identifier}/${item.version}`;
-	let downloadUrl = flattenUrl(location);
+	let downloadUrlFlattened = location;
+	
+	if (sourceType === "API") {
+		location = `${getExtensionSource()}download/${id}/${version}/${target}`;
+	}
+
+	downloadUrlFlattened = flattenUrl(location);
 
 	const downloadDirectory = getDownloadDirectory(ctx).fsPath;
 	if (!fs.existsSync(downloadDirectory)) {
 		fs.mkdirSync(downloadDirectory, { recursive: true });
 	}
 
-	// const response = await axios.get(downloadUrl, { responseType: "stream" });
-	// const fileName = getDownloadFilename(response.headers["content-disposition"]);
-	// if (!fileName) {
-	// 	return false;
-	// }
+	let extensionPath = path.join(downloadDirectory, path.basename(downloadUrlFlattened));
+	if (sourceType === "API") {
+		// download the VSIX from remote source first and reset downloadUrl
+		const response = await axios.get(downloadUrlFlattened, { responseType: "stream" });
 
-	const extensionPath = path.join(downloadDirectory, path.basename(downloadUrl));
-	fs.copyFileSync(downloadUrl, extensionPath);
+		if (response.status === 404) { // not found
+			vscode.window.showErrorMessage(`Extension not found at: ${location}`);
+		}
+		const fileName = getDownloadFilename(response.headers["content-disposition"]);
+		if (!fileName) {
+			return false;
+		}
 
-	//const writer = fs.createWriteStream(extensionPath);
-	//response.data.pipe(writer);
+		extensionPath = path.join(downloadDirectory, fileName);
 
-	// await new Promise<void>((resolve, reject) => {
-	// 	writer.on("finish", resolve);
-	// 	writer.on("error", reject);
-	// });
+		const writer = fs.createWriteStream(extensionPath);
+		response.data.pipe(writer);
+
+		await new Promise<void>((resolve, reject) => {
+			writer.on("finish", resolve);
+			writer.on("error", reject);
+		});
+	}
+	if (sourceType === "Directory") {
+		fs.copyFileSync(downloadUrlFlattened, extensionPath);
+	}
 
 	console.log(`Download complete: ${extensionPath}`);
 
