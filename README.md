@@ -1,3 +1,4 @@
+[![VS Marketplace Badge](https://img.shields.io/badge/Visual%20Studio%20Marketplace-0.0.7-brightgreen?logo=visualstudiocode)](https://marketplace.visualstudio.com/items?itemName=TimHeuer.mympclient)
 # My Marketplace 
 This is a VS Code extension to enable a view of private extensions and a means to install them.
 
