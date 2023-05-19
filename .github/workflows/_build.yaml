@@ -50,7 +50,9 @@ jobs:
 
     - name: Publish
       if: ${{ github.event_name == 'push' }}
-      run: vsce publish
+      run: npm run deploy
+      env:
+        VSCE_PAT: ${{ secrets.VSCE_PAT }}
 
     - name: Upload artifact
       uses: actions/upload-artifact@v3
