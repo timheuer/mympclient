@@ -18,6 +18,7 @@ export interface IExtension {
 	relativeReadmePath: string;
 	publisher: string;
 	name: string;
+	isPreview: boolean;
 	preview: boolean;
 }
 
@@ -29,6 +30,11 @@ export class Extension {
 		var packagePath = `${this.extensionPath}.vsix`;
 		return packagePath;
 	}
+
+	public get isPreview(): boolean {
+		return (this.extension.isPreview || this.extension.preview);
+	}
+
 	public get iconPath(): string {
 		let path = this.extension.relativeIconPath;
 		

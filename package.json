@@ -2,7 +2,7 @@
   "name": "mympclient",
   "displayName": "My Marketplace",
   "description": "Client for My Marketplace private extension",
-  "version": "0.0.8",
+  "version": "0.0.9",
   "icon": "resources/mympicon.png",
   "repository": {
     "type": "git",
