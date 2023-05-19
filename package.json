@@ -2,7 +2,7 @@
   "name": "mympclient",
   "displayName": "My Marketplace",
   "description": "Client for My Marketplace private extension",
-  "version": "0.0.11",
+  "version": "0.0.12",
   "icon": "resources/mympicon.png",
   "repository": {
     "type": "git",
@@ -211,7 +211,8 @@
     "test": "node ./out/test/runTest.js",
     "version": "tsc -v",
     "vscode:prepublish": "rimraf ./out && npm run package",
-    "package": "cross-env NODE_ENV=production node ./esbuild.js"
+    "package": "cross-env NODE_ENV=production node ./esbuild.js",
+    "deploy": "vsce publish"
   },
   "devDependencies": {
     "@types/adm-zip": "^0.5.0",

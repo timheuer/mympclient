@@ -48,6 +48,10 @@ jobs:
     - name: Package
       run: vsce package
 
+    - name: Publish
+      if: ${{ github.event_name == 'push' }}
+      run: vsce publish
+
     - name: Upload artifact
       uses: actions/upload-artifact@v3
       with:
