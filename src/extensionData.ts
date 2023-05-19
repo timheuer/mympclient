@@ -32,7 +32,15 @@ export class Extension {
 	}
 
 	public get isPreview(): boolean {
-		return (this.extension.isPreview || this.extension.preview);
+		if (this.extension.isPreview !== undefined) {
+			return this.extension.isPreview;
+		}
+
+		if (this.extension.preview !== undefined ) {
+			return this.extension.preview;
+		}
+
+		return false;
 	}
 
 	public get iconPath(): string {
