@@ -2,7 +2,7 @@
   "name": "mympclient",
   "displayName": "My Marketplace",
   "description": "Client for My Marketplace private extension",
-  "version": "0.0.14",
+  "version": "0.0.15",
   "icon": "resources/mympicon.png",
   "repository": {
     "type": "git",
@@ -26,7 +26,7 @@
     "vscode": "^1.78.0"
   },
   "categories": [
-    "Other"
+    "Other", "Testing"
   ],
   "activationEvents": [
     "onStartupFinished"
