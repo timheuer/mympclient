@@ -2,7 +2,7 @@
   "name": "mympclient",
   "displayName": "My Marketplace",
   "description": "Client for My Marketplace private extension",
-  "version": "0.0.15",
+  "version": "0.1.0",
   "icon": "resources/mympicon.png",
   "repository": {
     "type": "git",
@@ -183,11 +183,6 @@
         }
       ],
       "view/item/context": [
-        {
-          "command": "mympclient.install",
-          "when": "view == mympclient-api-extensions || view == mympclient-dir-extensions",
-          "group": "inline"
-        },
         {
 					"command": "mympclient.revealInOS",
 					"when": "isWindows && view == mympclient-dir-extensions && viewItem == File"
