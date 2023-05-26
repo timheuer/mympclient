@@ -21,3 +21,5 @@ An example implemenation of a web app and API endpoint implemented in Blazor com
 
 ## Credits
 This was inspired by [Prashant](https://github.com/prashantvc)'s https://github.com/prashantvc/extensions repository which is a React front-end application and I wanted to convert this completely to .NET and Blazor.  All credit for the idea and functionality in the initial implementation goes to Prashant.  I've selfishly forked the VS Code extension for various reasons but also originated with Prashant.
+
+Marketplace icon is 'market place' by Becris from <a href="https://thenounproject.com/browse/icons/term/market-place/" target="_blank" title="market place Icons">Noun Project</a>
