@@ -2,6 +2,7 @@
 const vscode = acquireVsCodeApi();
 
 import { provideVSCodeDesignSystem, vsCodeButton, vsCodeTag, vsCodePanelTab, vsCodePanelView, vsCodePanels } from "@vscode/webview-ui-toolkit";
+import { moveSyntheticComments } from "typescript";
 provideVSCodeDesignSystem().register(vsCodeButton(), vsCodeTag(), vsCodePanelTab(), vsCodePanelView(), vsCodePanels());
 
 window.addEventListener("load", main);
@@ -23,6 +24,7 @@ function main() {
 	// if directory path, extract it from the attribute
 	if (repoSourceType !== null && repoSourceType === "Directory") {
 		var md = window.markdownit();
+		md.options.html = true;
 		var result = md.render(markdownPath);
 		markdownDiv.innerHTML = result;
 	}
@@ -31,6 +33,7 @@ function main() {
 			.then(response => response.text())
 			.then(data => {
 				var md = window.markdownit();
+				md.options.html = true;
 				var result = md.render(data.toString());
 				markdownDiv.innerHTML = result; 
 			});

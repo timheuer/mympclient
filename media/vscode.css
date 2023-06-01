@@ -14,7 +14,7 @@ body {
 	font-family: var(--vscode-font-family);
 	background-color: var(--vscode-editor-background);
 	height: 100%;
-    overflow: hidden;
+    overflow: auto;
     display: flex;
     flex-direction: column;
     margin: 0 auto;
