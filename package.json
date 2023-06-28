@@ -2,7 +2,7 @@
   "name": "mympclient",
   "displayName": "My Marketplace",
   "description": "Client for My Marketplace private extension",
-  "version": "0.1.5",
+  "version": "0.1.6",
   "icon": "resources/marketplace.png",
   "repository": {
     "type": "git",
@@ -22,11 +22,32 @@
       "name": "Tim Heuer"
     }
   ],
+  "qna": "https://github.com/timheuer/mympclient/issues",
   "engines": {
     "vscode": "^1.78.0"
   },
   "categories": [
-    "Other", "Testing"
+    "Other",
+    "Testing"
+  ],
+  "keywords": [
+    "marketplace",
+    "private",
+    "extensions",
+    "vscode",
+    "visual studio code"
+  ],
+  "badges": [
+    {
+      "url": "https://img.shields.io/visual-studio-marketplace/v/timheuer.mympclient?label=VS%20Code%20Marketplace&color=brightgreen&logo=visualstudiocode",
+      "href": "https://marketplace.visualstudio.com/items?itemName=TimHeuer.resx-editor",
+      "description": "Current Version"
+    },
+    {
+      "url": "https://github.com/timheuer/mympclient/actions/workflows/_build.yaml/badge.svg",
+      "href": "https://github.com/timheuer/mympclient/actions/workflows/_build.yaml",
+      "description": "Build Status"
+    }
   ],
   "activationEvents": [
     "onStartupFinished"
@@ -184,17 +205,17 @@
       ],
       "view/item/context": [
         {
-					"command": "mympclient.revealInOS",
-					"when": "isWindows && view == mympclient-dir-extensions && viewItem == File"
-				},
-				{
-					"command": "mympclient.revealInOS",
-					"when": "isMac && view == mympclient-dir-extensions && viewItem == File"
-				},
-				{
-					"command": "mympclient.revealInOS",
-					"when": "isLinux && view == mympclient-dir-extensions && viewItem == File"
-				}
+          "command": "mympclient.revealInOS",
+          "when": "isWindows && view == mympclient-dir-extensions && viewItem == File"
+        },
+        {
+          "command": "mympclient.revealInOS",
+          "when": "isMac && view == mympclient-dir-extensions && viewItem == File"
+        },
+        {
+          "command": "mympclient.revealInOS",
+          "when": "isLinux && view == mympclient-dir-extensions && viewItem == File"
+        }
       ]
     }
   },
